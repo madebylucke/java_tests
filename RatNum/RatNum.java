@@ -30,13 +30,34 @@ public class RatNum {
         this.numerator = r.getNumerator();
         this.denominator = r.getDenominator();
     }
-    
+
+    public RatNum(String r) {
+    }
+
     public int getDenominator() {
         return this.denominator;
     }
 
     public int getNumerator() {
         return this.numerator;
+    }
+
+    public String toString() {
+        return this.numerator + "/" + this.denominator;
+    }
+
+    public static RatNum parse(String s){
+        try{
+            if (!s.contains("/")){
+                return new RatNum(Integer.parseInt(s));
+            }
+            String[] parsedString = s.split("/");
+            if (parsedString.length == 2){
+                return new RatNum(Integer.parseInt(parsedString[0]), Integer.parseInt(parsedString[1]));
+            }
+        }
+            catch()
+        throw new NumberFormatException();
     }
 
     public static int gcd(int m, int n) {
