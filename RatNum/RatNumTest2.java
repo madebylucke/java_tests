@@ -1,4 +1,4 @@
-class RatNumTest2 {
+public class RatNumTest2 {
 
     private static void fel(int nr) {
         System.out.println("RatNumTest2: Fel nummer " + nr);

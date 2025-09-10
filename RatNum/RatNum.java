@@ -1,30 +1,39 @@
+import java.math.BigInteger;
+
 /**
  * This is Ratnum an implementation of ratinal numbers.
  */
 public class RatNum {
-    private int denominator;
-    private int numerator;
+    private BigInteger denominator;
+    private BigInteger numerator;
+
+    private RatNum(BigInteger n, BigInteger d) {
+        this.numerator = n;
+        this.denominator = d;
+    }
 
     /**
      * constructor of RatNum with values 0/1
      */
     public RatNum() {
-        this.numerator = 0;
-        this.denominator = 1;
+        this(BigInteger.valueOf(0),
+         BigInteger.valueOf(1));
     }
 
     /**
      * constructor of RatNum with values a/1
      */
     public RatNum(int a) {
-        this.numerator = a;
-        this.denominator = 1;
+        this(BigInteger.valueOf(a),
+         BigInteger.valueOf(1));
     }
 
     /**
      * constructor of RatNum with values a/b
      */
     public RatNum(int a, int b) {
+        
+
         if (b == 0) {
             throw new NumberFormatException("cant devide with zero");
         }
@@ -33,17 +42,16 @@ public class RatNum {
             a *= -1;
             b *= -1;
         }
-
-        this.numerator = a / gcd;
-        this.denominator = b / gcd;
+        
+        this.numerator = BigInteger.valueOf(a / gcd);
+        this.denominator = BigInteger.valueOf(b / gcd);
     }
 
     /**
      * constructor of RatNum with values mirrored from r
      */
     public RatNum(RatNum r) {
-        this.numerator = r.getNumerator();
-        this.denominator = r.getDenominator();
+        this(r.getNumerator(), r.getDenominator());
     }
 
     /**
@@ -57,14 +65,14 @@ public class RatNum {
      * returns denominator
      */
     public int getDenominator() {
-        return this.denominator;
+        return this.denominator.intValue();
     }
 
     /**
      * returns numerator
      */
     public int getNumerator() {
-        return this.numerator;
+        return this.numerator.intValue();
     }
 
     /**
@@ -110,30 +118,36 @@ public class RatNum {
      * returns addition of r to the number
      */
     public RatNum add(RatNum r) {
-        return new RatNum(this.getNumerator() * r.getDenominator() + r.getNumerator() * this.getDenominator(),
-                this.getDenominator() * r.getDenominator());
+        BigInteger num = BigInteger.valueOf(this.getNumerator() * r.getDenominator() + r.getNumerator() * this.getDenominator());
+        BigInteger denum = BigInteger.valueOf(this.getDenominator() * r.getDenominator());
+        return new RatNum(num, denum);
     }
 
     /**
      * returns subtraction of r to the number
      */
     public RatNum sub(RatNum r) {
-        return new RatNum(this.getNumerator() * r.getDenominator() - r.getNumerator() * this.getDenominator(),
-                this.getDenominator() * r.getDenominator());
+        BigInteger num = BigInteger.valueOf(this.getNumerator() * r.getDenominator() - r.getNumerator() * this.getDenominator());
+        BigInteger denum = BigInteger.valueOf(this.getDenominator() * r.getDenominator());
+        return new RatNum(num, denum);
     }
 
     /**
      * returns multiplication of r with the number
      */
     public RatNum mul(RatNum r) {
-        return new RatNum(this.getNumerator() * r.getNumerator(), this.getDenominator() * r.getDenominator());
+        BigInteger num = BigInteger.valueOf(this.getNumerator() * r.getNumerator());
+        BigInteger denum = BigInteger.valueOf(this.getDenominator() * r.getDenominator());
+        return new RatNum(num, denum);
     }
 
     /**
      * returns division of the number with r
      */
     public RatNum div(RatNum r) {
-        return new RatNum(this.getNumerator() * r.getDenominator(), this.getDenominator() * r.getNumerator());
+        BigInteger num = BigInteger.valueOf(this.getNumerator() * r.getDenominator());
+        BigInteger denum = BigInteger.valueOf(this.getNumerator() * r.getDenominator());
+        return new RatNum(num, denum);
     }
 
     /**
