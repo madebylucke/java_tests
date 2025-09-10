@@ -31,9 +31,6 @@ public class RatNum {
         this.denominator = r.getDenominator();
     }
 
-    public RatNum(String r) {
-    }
-
     public int getDenominator() {
         return this.denominator;
     }
@@ -46,18 +43,53 @@ public class RatNum {
         return this.numerator + "/" + this.denominator;
     }
 
-    public static RatNum parse(String s){
-        try{
-            if (!s.contains("/")){
-                return new RatNum(Integer.parseInt(s));
-            }
-            String[] parsedString = s.split("/");
-            if (parsedString.length == 2){
-                return new RatNum(Integer.parseInt(parsedString[0]), Integer.parseInt(parsedString[1]));
-            }
+    public static RatNum parse(String s) {
+        if (!s.contains("/")) {
+            return new RatNum(Integer.parseInt(s));
         }
-            catch()
-        throw new NumberFormatException();
+        String[] parsedString = s.split("/");
+        if (parsedString.length == 2) {
+            return new RatNum(Integer.parseInt(parsedString[0]), Integer.parseInt(parsedString[1]));
+        } else
+            throw new NumberFormatException("Can only construct a Ratinal number form two integers");
+    }
+
+    public RatNum(String s) {
+        this(parse(s));
+    }
+
+    public boolean equals(Object r) {
+        if (r == null || (r.getClass() != this.getClass())) {
+            return false;
+        }
+        RatNum ratnum = (RatNum) r;
+        return this.getDenominator() == ratnum.getDenominator() && this.getNumerator() == ratnum.getNumerator();
+    }
+
+    public boolean lessThan(RatNum r) {
+        return (float) this.getNumerator() / this.getDenominator() < (float) r.getNumerator() / r.getDenominator();
+    }
+
+    public RatNum add(RatNum r) {
+        return new RatNum(this.getNumerator() * r.getDenominator() + r.getNumerator() * this.getDenominator(),
+                this.getDenominator() * r.getDenominator());
+    }
+
+    public RatNum sub(RatNum r) {
+        return new RatNum(this.getNumerator() * r.getDenominator() - r.getNumerator() * this.getDenominator(),
+                this.getDenominator() * r.getDenominator());
+    }
+
+    public RatNum mul(RatNum r) {
+        return new RatNum(this.getNumerator() * r.getNumerator(), this.getDenominator() * r.getDenominator());
+    }
+
+    public RatNum div(RatNum r) {
+        return new RatNum(this.getNumerator() * r.getDenominator(), this.getDenominator() * r.getNumerator());
+    }
+
+    public String toIntString() {
+        return (Integer.toString(this.getNumerator() / this.getDenominator()));
     }
 
     public static int gcd(int m, int n) {
