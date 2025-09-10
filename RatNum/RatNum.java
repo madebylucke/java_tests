@@ -1,4 +1,6 @@
 /**
+ * @author Lucas Ludwig Christiansson
+ * @author Nils Unge Wickenberg Rangfast
  * This is Ratnum an implementation of ratinal numbers.
  */
 public class RatNum {
@@ -6,7 +8,7 @@ public class RatNum {
     private int numerator;
 
     /**
-     * constructor of RatNum with values 0/1
+     * constructor of RatNum with values 0/1 - Nils
      */
     public RatNum() {
         this.numerator = 0;
@@ -14,7 +16,7 @@ public class RatNum {
     }
 
     /**
-     * constructor of RatNum with values a/1
+     * @param a value for numerator
      */
     public RatNum(int a) {
         this.numerator = a;
@@ -22,7 +24,9 @@ public class RatNum {
     }
 
     /**
-     * constructor of RatNum with values a/b
+     * @param a value for numerator
+     * @param b value for denominator
+     * @throws NumberFormatException when b is 0.
      */
     public RatNum(int a, int b) {
         if (b == 0) {
@@ -39,7 +43,7 @@ public class RatNum {
     }
 
     /**
-     * constructor of RatNum with values mirrored from r
+     * @param r rational number to be mirrored
      */
     public RatNum(RatNum r) {
         this.numerator = r.getNumerator();
@@ -47,35 +51,37 @@ public class RatNum {
     }
 
     /**
-     * constructor of RatNum from the stirng passed
+     * @param s string representing rational number
      */
     public RatNum(String s) {
         this(parse(s));
     }
 
     /**
-     * returns denominator
+     * @return denominator
      */
     public int getDenominator() {
         return this.denominator;
     }
 
     /**
-     * returns numerator
+     * @return numerator
      */
     public int getNumerator() {
         return this.numerator;
     }
 
     /**
-     * returns string representation of the ratinal number
+     * @return string representation of the rational number
      */
     public String toString() {
         return this.numerator + "/" + this.denominator;
     }
 
     /**
-     * returns parsed string of the number
+     * @param s the string to be parsed
+     * @return the rational number from the string
+     * @throws NumberFormatException Like six different reasons - Nils, han bryr sig inte
      */
     public static RatNum parse(String s) {
         if (!s.contains("/")) {
@@ -89,7 +95,8 @@ public class RatNum {
     }
 
     /**
-     * returns if object r is equal to the number
+     * @param r Object to be compared
+     * @return true/false
      */
     public boolean equals(Object r) {
         if (r == null || (r.getClass() != this.getClass())) {
@@ -100,14 +107,16 @@ public class RatNum {
     }
 
     /**
-     * returns boolean of the number less than r
+     * @param r rational number
+     * @return true/false
      */
     public boolean lessThan(RatNum r) {
         return (float) this.getNumerator() / this.getDenominator() < (float) r.getNumerator() / r.getDenominator();
     }
 
     /**
-     * returns addition of r to the number
+     * @param r rational number
+     * @return a new rational number
      */
     public RatNum add(RatNum r) {
         return new RatNum(this.getNumerator() * r.getDenominator() + r.getNumerator() * this.getDenominator(),
@@ -115,7 +124,8 @@ public class RatNum {
     }
 
     /**
-     * returns subtraction of r to the number
+     * @param r rational number
+     * @return a new rational number
      */
     public RatNum sub(RatNum r) {
         return new RatNum(this.getNumerator() * r.getDenominator() - r.getNumerator() * this.getDenominator(),
@@ -123,28 +133,32 @@ public class RatNum {
     }
 
     /**
-     * returns multiplication of r with the number
+     * @param r rational number
+     * @return a new rational number
      */
     public RatNum mul(RatNum r) {
         return new RatNum(this.getNumerator() * r.getNumerator(), this.getDenominator() * r.getDenominator());
     }
 
     /**
-     * returns division of the number with r
+     * @param r rational number
+     * @return a new rational number
      */
     public RatNum div(RatNum r) {
         return new RatNum(this.getNumerator() * r.getDenominator(), this.getDenominator() * r.getNumerator());
     }
 
     /**
-     * returns string representation of the number
+     * @return string from the rational number
      */
     public String toIntString() {
         return (Integer.toString(this.getNumerator() / this.getDenominator()));
     }
 
     /**
-     * returns greatest comon divider of two integers, m and n
+     * @param m a number
+     * @param n a number
+     * @return the greatest common divisor of two integers, m and n
      */
     public static int gcd(int m, int n) {
         m = Math.abs(m);
