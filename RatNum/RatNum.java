@@ -1,26 +1,32 @@
+import java.math.BigInteger;
+
 /**
  * @author Lucas Ludwig Christiansson
  * @author Nils Unge Wickenberg Rangfast
  * This is Ratnum an implementation of ratinal numbers.
  */
 public class RatNum {
-    private int denominator;
-    private int numerator;
+    private BigInteger denominator;
+    private BigInteger numerator;
+
+
+    private RatNum(BigInteger n, BigInteger d) {
+        this.numerator = n;
+        this.denominator = d;
+    }
 
     /**
      * constructor of RatNum with values 0/1 - Nils
      */
     public RatNum() {
-        this.numerator = 0;
-        this.denominator = 1;
+        this(BigInteger.valueOf(0),BigInteger.valueOf(1));
     }
 
     /**
      * @param a value for numerator
      */
     public RatNum(int a) {
-        this.numerator = a;
-        this.denominator = 1;
+        this(BigInteger.valueOf(a),BigInteger.valueOf(1));
     }
 
     /**
@@ -37,17 +43,16 @@ public class RatNum {
             a *= -1;
             b *= -1;
         }
-
-        this.numerator = a / gcd;
-        this.denominator = b / gcd;
+        
+        this.numerator = BigInteger.valueOf(a / gcd);
+        this.denominator = BigInteger.valueOf(b / gcd);
     }
 
     /**
      * @param r rational number to be mirrored
      */
     public RatNum(RatNum r) {
-        this.numerator = r.getNumerator();
-        this.denominator = r.getDenominator();
+        this(r.getNumerator(), r.getDenominator());
     }
 
     /**
@@ -61,14 +66,14 @@ public class RatNum {
      * @return denominator
      */
     public int getDenominator() {
-        return this.denominator;
+        return this.denominator.intValue();
     }
 
     /**
      * @return numerator
      */
     public int getNumerator() {
-        return this.numerator;
+        return this.numerator.intValue();
     }
 
     /**
@@ -111,7 +116,7 @@ public class RatNum {
      * @return true/false
      */
     public boolean lessThan(RatNum r) {
-        return (float) this.getNumerator() / this.getDenominator() < (float) r.getNumerator() / r.getDenominator();
+        return (long) this.getNumerator() / this.getDenominator() < (long) r.getNumerator() / r.getDenominator();
     }
 
     /**
@@ -119,8 +124,13 @@ public class RatNum {
      * @return a new rational number
      */
     public RatNum add(RatNum r) {
-        return new RatNum(this.getNumerator() * r.getDenominator() + r.getNumerator() * this.getDenominator(),
-                this.getDenominator() * r.getDenominator());
+        BigInteger a = this.numerator
+        .multiply(BigInteger.valueOf( r.getDenominator()))
+        .add(this.denominator.multiply(BigInteger.valueOf( r.getNumerator())));
+        
+        BigInteger b = this.denominator
+        .multiply(BigInteger.valueOf(r.getDenominator()));
+        return new RatNum(a, b);
     }
 
     /**
